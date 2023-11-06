@@ -11,8 +11,20 @@ bool Res::load(std::string const& filename) {
   return _document.load(filename);
 }
 
+bool Res::load(std::string const& filename, std::string& msg) {
+  return _document.load(filename, msg);
+}
+
 void Res::save(std::string const& filename) const {
   _document.save(filename);
+}
+
+Iter Res::begin() {
+  return _document.begin();
+}
+
+Iter Res::end() {
+  return _document.end();
 }
 
 Iter Res::find(std::string const& name) const {

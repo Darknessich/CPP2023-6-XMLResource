@@ -4,11 +4,9 @@
 #include <iterator>
 #include <stack>
 
-struct XMLElement::XMLIterator :
-  std::iterator<std::forward_iterator_tag, XMLElement>
-{
+struct XMLElement::XMLIterator {
   XMLIterator();
-  XMLIterator(XMLElement*);
+  explicit XMLIterator(XMLElement*);
 
   XMLIterator(XMLIterator const&) = default;
   XMLIterator& operator=(XMLIterator const&) = default;
@@ -25,6 +23,8 @@ struct XMLElement::XMLIterator :
   bool operator==(XMLIterator const&);
   bool operator!=(XMLIterator const&);
 
+  bool operator==(XMLElement*);
+  bool operator!=(XMLElement*);
 private:
   std::stack<XMLElement*> _fwd;
   XMLElement* _current;

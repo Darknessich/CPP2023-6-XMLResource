@@ -12,8 +12,18 @@ public:
   
   XMLDocument();
 
+  XMLDocument(XMLDocument const&);
+  XMLDocument(XMLDocument&&) = default;
+
+  XMLDocument& operator=(XMLDocument const&);
+  XMLDocument& operator=(XMLDocument&&) = default;
+
   bool load(std::string const& filename);
+  bool load(std::string const& filename, std::string& msg);
   void save(std::string const& filename) const;
+
+  Iterator begin();
+  Iterator end();
 
   Iterator find(std::string const& name) const;
   Iterator find(std::string const& name, Iterator start) const;

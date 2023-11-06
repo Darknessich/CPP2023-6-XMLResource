@@ -17,7 +17,11 @@ public:
   XMLResource& operator=(XMLResource&&) = delete;
 
   bool load(std::string const& filename);
+  bool load(std::string const& filename, std::string& msg);
   void save(std::string const& filename) const;
+
+  Iterator begin();
+  Iterator end();
 
   Iterator find(std::string const& name) const;
   Iterator find(std::string const& name, Iterator start) const;

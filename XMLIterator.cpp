@@ -56,3 +56,11 @@ bool Iter::operator==(XMLIterator const& other) {
 bool Iter::operator!=(XMLIterator const& other) {
   return _current != other._current;
 }
+
+bool Iter::operator==(XMLElement* other) {
+  return _current == other;
+}
+
+bool Iter::operator!=(XMLElement* other) {
+  return _current != other;
+}
