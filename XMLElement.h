@@ -33,6 +33,11 @@ public:
   XMLIterator end();
 
   XMLElement* emplace_back(std::string const& name, std::string const& value);
+  XMLElement* emplace_front(std::string const& name, std::string const& value);
+  XMLElement* emplace_back(XMLChild&& child);
+
+  void childrenToParent();
+  void erase(XMLIterator const& child);
 
 private:
   std::string _name;

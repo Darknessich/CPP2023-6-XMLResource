@@ -13,7 +13,7 @@ XMLElement::XMLElement(XMLElement const& other) {
   this->_name = other._name;
   this->_value = other._value;
   while (!q.empty()) {
-    auto [copy, from] = q.front();
+    auto& [copy, from] = q.front();
     q.pop();
 
     for (auto&& child : from->_children) {
@@ -65,4 +65,30 @@ XMLElement::XMLIterator XMLElement::end() {
 XMLElement* XMLElement::emplace_back(std::string const& name, std::string const& value) {
   _children.emplace_back(std::make_unique<XMLElement>(name, value, this));
   return _children.back().get();
+}
+
+XMLElement* XMLElement::emplace_front(std::string const& name, std::string const& value) {
+  _children.emplace_front(std::make_unique<XMLElement>(name, value, this));
+  return _children.front().get();
+}
+
+XMLElement* XMLElement::emplace_back(XMLChild&& child) {
+  child->_parent = this;
+  _children.emplace_back(std::move(child));
+  return _children.back().get();
+}
+
+void XMLElement::childrenToParent() {
+  for (auto& child : _children)
+    _parent->emplace_back(std::move(child));
+  _children.clear();
+}
+
+void XMLElement::erase(XMLIterator const& childIt) {
+  for (auto&& it = _children.begin(); it != _children.end(); it++) {
+    if (childIt == it->get()) {
+      _children.erase(it);
+      break;
+    }
+  }
 }

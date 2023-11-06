@@ -27,11 +27,11 @@ Iter Res::end() {
   return _document.end();
 }
 
-Iter Res::find(std::string const& name) const {
+Iter Res::find(std::string const& name) {
   return _document.find(name);
 }
 
-Iter Res::find(std::string const& name, Iter start) const {
+Iter Res::find(std::string const& name, Iter start) {
   return _document.find(name, start);
 }
 

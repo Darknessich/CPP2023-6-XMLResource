@@ -14,17 +14,17 @@ struct XMLElement::XMLIterator {
   XMLIterator(XMLIterator&&) = default;
   XMLIterator& operator=(XMLIterator&&) = default;
   
-  XMLElement& operator*() noexcept;
-  XMLElement* operator->() noexcept;
+  XMLElement& operator*() const noexcept;
+  XMLElement* operator->() const noexcept;
 
   XMLIterator& operator++();
   XMLIterator  operator++(int);
 
-  bool operator==(XMLIterator const&);
-  bool operator!=(XMLIterator const&);
+  bool operator==(XMLIterator const&) const;
+  bool operator!=(XMLIterator const&) const;
 
-  bool operator==(XMLElement*);
-  bool operator!=(XMLElement*);
+  bool operator==(XMLElement*) const;
+  bool operator!=(XMLElement*) const;
 private:
   std::stack<XMLElement*> _fwd;
   XMLElement* _current;

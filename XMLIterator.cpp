@@ -8,14 +8,34 @@ Iter::XMLIterator()
 
 Iter::XMLIterator(XMLElement* init) 
   : _current(init)
-{}
+{
+  if (_current != nullptr) {
+    std::stack<XMLElement*> parents;
+
+    XMLElement* curr = _current;
+    while (curr) {
+      parents.push(curr);
+      curr = curr->parent();
+    }
+
+    curr = parents.top();
+    parents.pop();
+    while (!parents.empty()) {
+      auto& ch = curr->_children;
+      for (auto&& it = ch.rbegin(); it->get() != parents.top() && it != ch.rend(); it++)
+        _fwd.push(it->get());
+      curr = parents.top();
+      parents.pop();
+    }
+  }
+}
 
 
-XMLElement& Iter::operator*() noexcept {
+XMLElement& Iter::operator*() const noexcept {
   return *_current;
 }
 
-XMLElement* Iter::operator->() noexcept {
+XMLElement* Iter::operator->() const noexcept {
   return _current;
 }
 
@@ -49,18 +69,18 @@ Iter  Iter::operator++(int) {
   return prev;      // noexcept (&&)
 }
 
-bool Iter::operator==(XMLIterator const& other) {
+bool Iter::operator==(XMLIterator const& other) const {
   return _current == other._current;
 }
 
-bool Iter::operator!=(XMLIterator const& other) {
+bool Iter::operator!=(XMLIterator const& other) const {
   return _current != other._current;
 }
 
-bool Iter::operator==(XMLElement* other) {
+bool Iter::operator==(XMLElement* other) const {
   return _current == other;
 }
 
-bool Iter::operator!=(XMLElement* other) {
+bool Iter::operator!=(XMLElement* other) const {
   return _current != other;
 }

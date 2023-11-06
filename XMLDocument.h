@@ -25,11 +25,13 @@ public:
   Iterator begin();
   Iterator end();
 
-  Iterator find(std::string const& name) const;
-  Iterator find(std::string const& name, Iterator start) const;
+  Iterator find(std::string const& name);
+  Iterator find(std::string const& name, Iterator start);
 
   Iterator add(std::string const& name, std::string const& value, Iterator place);
-  bool erase(Iterator& place);
+  Iterator addRoot(std::string const& name, std::string const& value);
+
+  bool erase(Iterator place);
 
 private:
   std::unique_ptr<XMLElement> _root;

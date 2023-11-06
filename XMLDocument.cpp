@@ -44,7 +44,7 @@ bool Doc::load(std::string const& filename, std::string& msg) {
 
 void Doc::save(std::string const& filename) const {
   std::ofstream file(filename, std::ios::ate | std::ios::out);
-  
+
   int level = 0;
   std::stack<Iterator> closing;
   for (auto&& it = _root->begin(); it != _root->end(); it++) {
@@ -80,24 +80,28 @@ Iterator Doc::end() {
   return _root->end();
 }
 
-Iterator Doc::find(std::string const& name) const {
+Iterator Doc::find(std::string const& name) {
   return this->find(name, _root->begin());
 }
 
-Iterator Doc::find(std::string const& name, Iterator start) const {
+Iterator Doc::find(std::string const& name, Iterator start) {
   for (auto&& it = start; it != _root->end(); it++)
     if (it->name() == name)
       return it;
 
-  return _root->end();
+  return end();
 }
 
-// TODO
 Iterator Doc::add(std::string const& name, std::string const& value, Iterator place) {
-  return _root->end();
+  place->emplace_front(name, value);
+  return ++place;
 }
 
-// TODO
-bool Doc::erase(Iterator& place) {
-  return false;
+bool Doc::erase(Iterator place) {
+  if (place == begin() || place == end())
+    return false;
+  
+  place->childrenToParent();
+  place->parent()->erase(place);
+  return true;
 }
