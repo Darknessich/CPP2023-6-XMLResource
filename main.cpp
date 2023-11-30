@@ -32,6 +32,7 @@ int main() {
   it = resource->add("info", "", resource->begin());
   resource->add("years", "30", it);
   resource->add("gender", "male", it);
+  resource->add("status", "worker", it);
 
   resource->save("out.xml");
 }
